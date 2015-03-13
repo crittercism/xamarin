@@ -8,7 +8,7 @@ namespace CrittercismIOS
 	public partial class Crittercism
 	{
 		[DllImport("__Internal")]
-		private static extern void Crittercism_EnableWithAppID (string appID);
+		private static extern void Crittercism_EnableWithAppID (string appID, bool enableServiceMonitoring);
 
 		[DllImport("__Internal")]
 		private static extern bool Crittercism_LogHandledException (string name, string reason, string stack, int platformId);
@@ -81,7 +81,8 @@ namespace CrittercismIOS
 			sigaction (Signal.SIGBUS, IntPtr.Zero, sigbus);
 			sigaction (Signal.SIGSEGV,IntPtr.Zero, sigsegv);
 
-			Crittercism_EnableWithAppID (appId);
+			// Disable service monitoring. There's issues with NSProxy
+			Crittercism_EnableWithAppID (appId, false);
 
 			// Restor or Destrory the handlers
 			sigaction (Signal.SIGABRT, sigabrt, IntPtr.Zero);  		//RESTORE
